@@ -1,0 +1,7 @@
+tensorflow==2.15.0
+django
+numpy
+pandas
+ipykernel
+seaborn
+scikit-learn
