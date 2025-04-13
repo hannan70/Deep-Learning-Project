@@ -7,7 +7,7 @@ import re
 # load model
 from tensorflow.keras.models import load_model
 
-model = load_model('ml/lstm_rnn_model.h5', compile=False)
+model = load_model('ml/simple_rnn.h5', compile=False)
 
 
 # Create your views here.
@@ -25,17 +25,15 @@ def home_page(request):
             reviews = reviews.lower() 
             encoded_review = one_hot(reviews, voc_size)
             padded_review = pad_sequences([encoded_review], maxlen=max_length)
-            print(padded_review)
             return padded_review
+        
 
         def predict_sentiment(review):
-                processes_input = preprocess_text(review)
-                print("inside prediction", review)
-                
-                prediction = model.predict(processes_input)
-                sentiment = 'Positive' if prediction[0][0] > 0.5 else 'Negative'
-                return sentiment, prediction[0][0]
-
+            processes_input = preprocess_text(review)
+            prediction = model.predict(processes_input)
+            sentiment = 'Positive' if prediction[0][0] > 0.5 else 'Negative'
+            return sentiment, prediction[0][0]
+    
 
         sentiment, score = predict_sentiment(input_review)
         score_percentage  = f"{score:.2f}%"
